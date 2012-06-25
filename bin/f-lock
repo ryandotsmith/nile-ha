@@ -7,4 +7,5 @@ include FLock
 while true
   sleep(0.5) until endpoint = DB.lock_endpoint
   Monitor.run(endpoint)
+  endpoint = nil
 end

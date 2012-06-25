@@ -29,7 +29,7 @@ module FLock
     end
 
     def create(fqdn, host)
-      d_name, ident = Utils.d_name(fqdn), Utils.ident(fqdn)
+      d_name, ident = Utils.d_name(fqdn), Utils.ident(host)
       Utils.log(ns: "dns", fn: __method__, fqdn: fqdn, ident: ident) do
         Route53::DNSRecord.
           new(fqdn,"CNAME","0", [host], zone(d_name), nil, 1, ident).
