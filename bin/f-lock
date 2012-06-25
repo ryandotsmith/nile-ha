@@ -1,4 +1,10 @@
 #!/usr/bin/env ruby
 
 require './f-lock'
-FLock::Monitor.run(FLock::DB.lock_endpoint)
+
+include FLock
+
+while true
+  sleep(0.5) until endpoint = DB.lock_endpoint
+  Monitor.run(endpoint)
+end
