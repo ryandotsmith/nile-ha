@@ -1,0 +1,38 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Nile High Availability</title>
+  <meta name="author" content="ryandotsmith, ♠ ace hacker">
+  <meta name="description" content="HA routing for Heroku apps." />
+  <link href="/style.css" rel="stylesheet" />
+  <script type="text/javascript" src="/jquery.js"></script>
+  <script type="text/javascript" src="/jquery.tmpl.js"></script>
+  <script type="text/javascript" src="/nile.js"></script>
+</head>
+<body>
+
+  <!-- JQuery Templates -->
+  <script id="zone-input-tmpl" type="text/x-jquery-tmpl">
+    <input id="fqdn" name="fqdn" value="${fqdn}" type="text" placeholder="service.app-ha.net"/>
+    <br />
+    <input id="host1" name="host1" value="${host1}" type="text" placeholder="app.heroku.com"/>
+    <br />
+    <input id="host2" name="host2" value="${host2}" type="text" placeholder="app.heroku-shadowapp.com"/>
+    <br />
+    <input id="ns" name="ns" value="${ns}" type="text" />
+    <br />
+    <button>update</button>
+  </script>
+
+  <div id="container">
+    <div id="left">
+      <ul id="zone-list"></ul>
+      <a id="new-zone">+ new zone</a>
+    </div>
+    <div id="right">
+      <form id="update-zone" name="zone"></form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Nile High Availability</title>
+  <meta name="author" content="ryandotsmith, ♠ ace hacker">
+  <meta name="description" content="HA routing for Heroku apps." />
+</head>
+<body>
+  <div id="container">
+    <header></header>
+    <div id="main">
+    <ul>
+    <% @endpoints.each do |ep| %>
+      <li>
+        <%= ep[:host] %>
+	<form action="/endpoints/<%=ep[:id]%>" method="post">
+	  <input name="_method" type="hidden" value="delete">
+	  <button id="delete-endpoint">delete</button>
+      </li>
+    <% end %>
+    </ul>
+    <form method="post" action="/zones/<%=@zone[:id]%>/endpoints" id="new-endpoint" name="endpoint">
+      <input id="host" name="host" type="text" autocomplete="off" />
+    </form>
+    </div>
+    <footer></footer>
+  </div>
+</body>
+</html>
