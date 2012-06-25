@@ -47,6 +47,10 @@ end
 
 use Rack::MethodOverride
 
+def dec_str(str)
+  str.blank? ? nil : str
+end
+
 set :public_folder, "./nile/public"
 set :views, "./nile/templates"
 
@@ -68,6 +72,9 @@ end
 put "/zones/:fqdn" do |fqdn|
   content_type(:json)
   zone = FLock::Service.put_zone(fqdn)
-  FLock::Service.reset_endpoints(zone["id"], params[:host1], params[:host2])
+  FLock::Service.reset_endpoints(
+                                  zone["id"],
+                                  dec_str(params[:host1]),
+                                  dec_str(params[:host2]))
   body(JSON.dump(FLock::Service.zone_details(zone["id"])))
 end
