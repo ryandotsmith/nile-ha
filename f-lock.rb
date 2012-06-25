@@ -1,5 +1,4 @@
 require 'bundler/setup'
-require 'ruby-debug'
 require 'rest-client'
 
 require './lib/utils'

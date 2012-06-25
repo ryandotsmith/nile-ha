@@ -1,6 +1,5 @@
 require 'bundler/setup'
 require 'sinatra'
-require 'ruby-debug'
 require 'json'
 require './lib/utils'
 require './lib/dns'
