@@ -1,6 +1,5 @@
 source :rubygems
 
-gem 'ruby-debug19'
 gem 'thin'
 gem 'rest-client'
 gem 'route53'
