@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require './f-lock'
-Monitor.run(DB.lock_endpoint)
+FLock::Monitor.run(DB.lock_endpoint)
