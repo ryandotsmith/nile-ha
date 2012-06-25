@@ -12,6 +12,7 @@ module FLock
     extend self
     def run(endpoint)
       while($running)
+        sleep(0.5)
         if HTTP.down?(endpoint["host"])
           Utils.log(fn: __method__, at: "endpoint-down")
           DB.lock_zone(endpoint["zone_id"]) do
