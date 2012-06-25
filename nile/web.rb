@@ -48,7 +48,7 @@ end
 use Rack::MethodOverride
 
 def dec_str(str)
-  str.blank? ? nil : str
+  str.length.zero? ? nil : str
 end
 
 set :public_folder, "./nile/public"
