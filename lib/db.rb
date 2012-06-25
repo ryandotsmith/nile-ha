@@ -85,7 +85,18 @@ module FLock
     end
 
     def conn
-      @con ||= PG::Connection.open(host: "localhost", dbname: 'blk_rvr')
+      @con ||= PG::Connection.open(
+        dburl.host,
+        dburl.port || 5432,
+        nil, '', #opts, tty
+        dburl.path.gsub("/",""), # database name
+        dburl.user,
+        dburl.password
+      )
+    end
+
+    def dburl
+      URI.parse(ENV["DATABASE_URL"])
     end
   end
 end
