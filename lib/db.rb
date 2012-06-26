@@ -39,27 +39,24 @@ module FLock
       conn.exec(sql, [zid]).to_a
     end
 
-    def lock_endpoint
-      all_endpoints.find {|e| lock(:endpoint, e["id"].to_i)}
-    end
-
-    def all_endpoints
+    def all_endpoints(cloud="herokuapp.com")
       sql = "select "
       sql << "endpoints.id as id, endpoints.host as host, "
       sql << "zones.id as zone_id, zones.fqdn as fqdn "
       sql << "from endpoints, zones "
-      sql << "where endpoints.zone_id = zones.id"
+      sql << "where endpoints.zone_id = zones.id "
+      sql << "and endpoints.host like '%#{cloud}'"
       conn.exec(sql).to_a
     end
 
-    def lock_zone(zid)
+    def try_lock(space, id)
       begin
-        until lock(:zone, zid)
+        until lock(space, id)
           sleep(0.25)
         end
         yield if block_given?
       ensure
-        unlock(:zone, zid)
+        unlock(space, id)
       end
     end
 

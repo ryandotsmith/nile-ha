@@ -1,11 +1,31 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
-require './f-lock'
+$stdout.sync = true
+
+$running = true
+
+%w(INT TERM).each do |s|
+  trap(s) do
+    Utils.log(ns: "bin", at: "exit")
+    $running = false
+  end
+end
+
+require './lib/monitor'
 
 include FLock
 
-while true
-  sleep(0.5) until endpoint = DB.lock_endpoint
-  Monitor.run(endpoint)
-  endpoint = nil
+Utils.log(ns: "bin", at: "init")
+CHECK_INTERVAL = (ENV["CHECK_INTERVAL"] || 2)
+CHECK_CLOUD = (ENV["CHECK_CLOUD"] || "herokuapp.com")
+
+while $running
+  DB.all_endpoints(CHECK_CLOUD).each do |endpoint|
+    Utils.log(ns: "bin", cloud: CHECK_CLOUD, ep: endpoint["id"])
+    DB.try_lock(:endpoint, endpoint["id"]) do
+      Monitor.exec(endpoint)
+    end
+    sleep(CHECK_INTERVAL)
+  end
 end
