@@ -1,6 +1,8 @@
 require 'bundler/setup'
 require 'sinatra'
+require 'sinatra/google-auth'
 require 'json'
+
 require './lib/utils'
 require './lib/dns'
 require './lib/db'
@@ -55,6 +57,7 @@ set :public_folder, "./nile/public"
 set :views, "./nile/templates"
 
 get "/" do
+  authenticate
   erb :index
 end
 
@@ -72,9 +75,7 @@ end
 put "/zones/:fqdn" do |fqdn|
   content_type(:json)
   zone = FLock::Service.put_zone(fqdn)
-  FLock::Service.reset_endpoints(
-                                  zone["id"],
-                                  dec_str(params[:host1]),
-                                  dec_str(params[:host2]))
+  FLock::Service.
+    reset_endpoints(zone["id"], dec_str(params[:host1]),dec_str(params[:host2]))
   body(JSON.dump(FLock::Service.zone_details(zone["id"])))
 end
