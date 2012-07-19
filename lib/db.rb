@@ -6,6 +6,11 @@ module FLock
     extend self
     SPACES = {zone: 1, endpoint: 2}
 
+    def health_check
+      s = "select endpoint, max(time) from checks group by endpoint"
+      conn.exec(s)[0]
+    end
+
     def check_pass(eid)
       s = "insert into checks(endpoint, state, time) values ($1, 1, now())"
       conn.exec(s, [eid])

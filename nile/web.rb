@@ -44,6 +44,12 @@ module FLock
       DB.find_zone(fqdn) || setup_zone(fqdn)
     end
 
+    def health_check
+      DB.health_check.all? do |check|
+        Time.parse(check["max"]) <= (Time.now - 60)
+      end
+    end
+
   end
 end
 
