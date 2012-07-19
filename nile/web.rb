@@ -65,7 +65,7 @@ head "/" do
 end
 
 get "/health" do
-  FLock::Service.health? ? 200 : 417
+  FLock::Service.healthy? ? 200 : 417
 end
 
 get "/" do
