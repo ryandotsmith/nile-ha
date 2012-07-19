@@ -16,7 +16,7 @@ require './lib/monitor'
 
 include FLock
 
-Utils.log(ns: "bin", at: "init")
+Utils.log(ns: "f-lock", at: "init")
 CHECK_INTERVAL = (ENV["CHECK_INTERVAL"] || 2).to_i
 CHECK_CLOUDS = (ENV["CHECK_CLOUDS"] || "herokuapp.com")
 
