@@ -48,8 +48,9 @@ module FLock
       sql << "and (endpoints.host"
       clouds.to_enum.with_index(1).each do |cloud, i|
         sql << "like '%#{cloud}%'"
-        sql << i == clouds.length ? ")" : " OR "
+        sql << " OR " if i != clouds.length
       end
+      sql << ")"
       conn.exec(sql).to_a
     end
 
