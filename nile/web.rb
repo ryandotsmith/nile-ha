@@ -56,6 +56,10 @@ end
 set :public_folder, "./nile/public"
 set :views, "./nile/templates"
 
+head "/" do
+  200
+end
+
 get "/" do
   authenticate
   erb :index
