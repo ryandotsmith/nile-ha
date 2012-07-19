@@ -39,13 +39,17 @@ module FLock
       conn.exec(sql, [zid]).to_a
     end
 
-    def all_endpoints(cloud="herokuapp.com")
+    def all_endpoints(clouds="herokuapp.com")
       sql = "select "
       sql << "endpoints.id as id, endpoints.host as host, "
       sql << "zones.id as zone_id, zones.fqdn as fqdn "
       sql << "from endpoints, zones "
       sql << "where endpoints.zone_id = zones.id "
-      sql << "and endpoints.host like '%#{cloud}'"
+      sql << "and (endpoints.host"
+      clouds.to_enum.with_index(1).each do |cloud, i|
+        sql << "like '%#{cloud}%'"
+        sql << i == clouds.length ? ")" : " OR "
+      end
       conn.exec(sql).to_a
     end
 

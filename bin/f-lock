@@ -18,11 +18,11 @@ include FLock
 
 Utils.log(ns: "bin", at: "init")
 CHECK_INTERVAL = (ENV["CHECK_INTERVAL"] || 2).to_i
-CHECK_CLOUD = (ENV["CHECK_CLOUD"] || "herokuapp.com")
+CHECK_CLOUDS = (ENV["CHECK_CLOUDS"] || "herokuapp.com")
 
 while $running
-  DB.all_endpoints(CHECK_CLOUD).each do |endpoint|
-    Utils.log(ns: "bin", cloud: CHECK_CLOUD, ep: endpoint["id"])
+  DB.all_endpoints(CHECK_CLOUDS.split(":")).each do |endpoint|
+    Utils.log(ns: "bin", clouds: CHECK_CLOUDS, ep: endpoint["id"])
     DB.try_lock(:endpoint, endpoint["id"]) do
       Monitor.exec(endpoint)
     end
