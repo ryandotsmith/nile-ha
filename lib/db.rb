@@ -8,7 +8,7 @@ module FLock
 
     def health_check
       s = "select endpoint, max(time) from checks group by endpoint"
-      conn.exec(s)[0]
+      conn.exec(s).to_a.map {|check| Time.parse(check["max"])}
     end
 
     def check_pass(eid)

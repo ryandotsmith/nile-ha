@@ -44,10 +44,8 @@ module FLock
       DB.find_zone(fqdn) || setup_zone(fqdn)
     end
 
-    def health_check
-      DB.health_check.all? do |check|
-        Time.parse(check["max"]) <= (Time.now - 60)
-      end
+    def healthy?
+      DB.health_check.all? {|t| t > (Time.now - 60)}
     end
 
   end
@@ -64,6 +62,10 @@ set :views, "./nile/templates"
 
 head "/" do
   200
+end
+
+get "/health" do
+  FLock::Service.health? ? 200 : 417
 end
 
 get "/" do
