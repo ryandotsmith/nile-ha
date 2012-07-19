@@ -45,9 +45,9 @@ module FLock
       sql << "zones.id as zone_id, zones.fqdn as fqdn "
       sql << "from endpoints, zones "
       sql << "where endpoints.zone_id = zones.id "
-      sql << "and (endpoints.host"
+      sql << "and ("
       clouds.to_enum.with_index(1).each do |cloud, i|
-        sql << " like '%#{cloud}%' "
+        sql << " endpoints.host like '%#{cloud}%' "
         sql << " OR " if i != clouds.length
       end
       sql << ")"
