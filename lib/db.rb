@@ -6,6 +6,16 @@ module FLock
     extend self
     SPACES = {zone: 1, endpoint: 2}
 
+    def check_pass(eid)
+      s = "insert into checks(endpoint, state, time) values ($1, 1, now())"
+      conn.exec(s, [eid])
+    end
+
+    def check_fail(eid)
+      s = "insert into checks(endpoint, state, time) values ($1, -1, now())"
+      conn.exec(s, [eid])
+    end
+
     def find_zone(fqdn)
       r = conn.exec("select * from zones where fqdn = $1", [fqdn])
       r.ntuples.zero? ? nil : r[0]

@@ -16,6 +16,7 @@ module FLock
             Utils.log(fn: __method__, at: "cant-kill", msg: "last-one")
           end
         end
+        DB.check_fail(endpoint["id"])
       else
         Utils.log(fn: __method__, at: "endpoint-up")
         DB.try_lock(:endpoint, endpoint["zone_id"]) do
@@ -23,6 +24,7 @@ module FLock
             DNS.create(endpoint["fqdn"], endpoint["host"])
           end
         end
+        DB.check_pass(endpoint["id"])
       end
     end
   end
