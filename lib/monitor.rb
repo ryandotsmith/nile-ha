@@ -7,7 +7,7 @@ module FLock
   module Monitor
     extend self
     def exec(endpoint)
-      if HTTP.down?(endpoint["host"])
+      if HTTP.down?(endpoint["fqdn"], endpoint["host"])
         Utils.log(fn: __method__, at: "endpoint-down")
         DB.try_lock(:endpoint, endpoint["zone_id"]) do
           if !DNS.empty?(endpoint["fqdn"])
